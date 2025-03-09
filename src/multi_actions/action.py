@@ -8,7 +8,7 @@ class ActionState:
     failed = "failed"
 
 
-class Actions:
+class BaseAction:
     """Базовый класс для представления отдельного действия."""
 
     def __init__(self, action_type):
@@ -17,16 +17,6 @@ class Actions:
         self.input_params = {}
         self.output_params = {}
         self.error_info = None
-
-    def get_actions(self):
-        return {
-            "execute": {
-                "description": "",
-                "input": [],
-                "output": [],
-                "func": self.execute
-            }
-        }
 
     def execute(self):
         # Метод для выполнения конкретного действия

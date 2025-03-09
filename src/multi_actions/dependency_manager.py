@@ -1,6 +1,6 @@
 import asyncio
 from typing import List, Dict
-from .action import Actions
+from .action import BaseAction
 
 
 def validate_action(func: callable):
@@ -19,13 +19,9 @@ def validate_action(func: callable):
 class DependencyManager:
     """Класс для управления зависимостями между действиями."""
 
-    def __init__(self, actions_data: Dict):
-        self.init_data = actions_data
-        self.actions: List[Actions]
+    def __init__(self, actions: List[BaseAction]):
+        self.actions = actions
         self._data_store = {}  # Хранилище промежуточных результатов
-
-    def _run_action(self):
-        pass
 
     def run_actions(self):
         for action in self.actions:
