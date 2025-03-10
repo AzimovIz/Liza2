@@ -11,19 +11,20 @@ class ActionState:
 class BaseAction:
     """Базовый класс для представления отдельного действия."""
 
-    def __init__(self, action_type):
-        self.action_type = action_type
+    def __init__(self, *args, **kwargs):
         self.state = ActionState.pending
         self.input_params = {}
         self.output_params = {}
+        for name, value in kwargs.items():
+            if isinstance(value, str) and value.startswith("$"):
+                self.input_params[name] = value
+            else:
+                setattr(self, name, value)
         self.error_info = None
 
     def execute(self):
         # Метод для выполнения конкретного действия
         raise NotImplementedError("Метод execute должен быть реализован в подклассах")
-
-    def set_input_params(self, params):
-        self.input_params.update(params)
 
     def get_output_params(self):
         return self.output_params

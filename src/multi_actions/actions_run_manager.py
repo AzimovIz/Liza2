@@ -1,4 +1,5 @@
 import asyncio
+from dataclasses import dataclass
 from typing import List, Dict
 from .action import BaseAction
 
@@ -16,7 +17,7 @@ def validate_action(func: callable):
     return wrapper
 
 
-class DependencyManager:
+class ActionsRunManager:
     """Класс для управления зависимостями между действиями."""
 
     def __init__(self, actions: List[BaseAction]):
@@ -50,3 +51,20 @@ class DependencyManager:
                 inputs[key] = self._data_store.get(param_name)
 
         return inputs
+
+
+@dataclass
+class ActionConfig:
+    input: dict
+    output: list
+
+
+def create_action_configs(data):
+    action_configs = []
+    for action_name, action_data in data.items():
+        action_config = ActionConfig(
+            input=action_data["input"],
+            output=action_data["output"]
+        )
+        action_configs.append(action_config)
+    return action_configs
